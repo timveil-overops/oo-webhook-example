@@ -6,9 +6,6 @@ ARG PROJECT_DIR=/webhook-example
 
 RUN mkdir $PROJECT_DIR
 
-ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk
-ENV PATH $JAVA_HOME/bin:$PATH
-
 # copy source code to container
 ADD .mvn $PROJECT_DIR/.mvn
 ADD mvnw $PROJECT_DIR
