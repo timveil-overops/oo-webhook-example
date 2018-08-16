@@ -1,14 +1,10 @@
-FROM centos:7
+FROM timveil/oo-docker-base-alpine-oracle
 
 LABEL maintainer="tjveil@gmail.com"
 
 ARG PROJECT_DIR=/webhook-example
 
-# install java and update OS
-RUN yum install -y java-1.8.0-openjdk-devel.x86_64 \
-    && yum -y update \
-    && yum clean all \
-    && mkdir $PROJECT_DIR
+RUN mkdir $PROJECT_DIR
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk
 ENV PATH $JAVA_HOME/bin:$PATH
