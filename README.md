@@ -12,9 +12,9 @@ To get started simply run the following command or use your IDE of choice.
 ./mvnw spring-boot:run
 ``` 
 
-By default, this will start up the provided examples running on an embedded tomcat instance listening on port `8090`.  This can be easily changed by modifying `application.properties`, etc.
+By default, this will start up the provided examples running inside an embedded tomcat instance listening on port `8090`.  This can be easily changed by modifying `application.properties`, etc.
 
-To begin receiving events, enable "Webhook" alerts on any OverOps view.  You should provide one of the following URL's to OverOps.
+To begin receiving events, enable "Webhook" alerts on any OverOps View.  You should provide one of the following URL's to OverOps.
 
 ```
 http://<your host name or ip>:8090/wh/simple
