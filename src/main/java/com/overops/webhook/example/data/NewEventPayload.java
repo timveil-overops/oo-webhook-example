@@ -26,7 +26,6 @@ public class NewEventPayload extends Payload {
     @JsonProperty("server_name")
     private String serverName;
 
-
     @JsonProperty("app_name")
     private String appName;
 
