@@ -1,13 +1,18 @@
 package com.overops.webhook.example.web;
 
 import com.overops.webhook.example.data.Event;
+import com.overops.webhook.example.integrations.PivotalStory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class Controller {
@@ -15,11 +20,59 @@ public class Controller {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 
-    @RequestMapping(value = "/webhook", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void post(@RequestBody Event event) {
-        log.debug(event.toString());
+    @Autowired
+    private Environment environment;
+
+
+    @PostMapping(value = "/simple", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void simple(@RequestBody Event event) {
+
+        log.debug("OverOps event posted to /simple via Webhook integration: {}", event.toString());
+
+        if (event.getType().equals(Event.Type.TEST)) {
+            log.debug("this is just a test");
+
+            return;
+        }
 
         // add your custom logic here...
+    }
+
+    @PostMapping(value = "/pivotal-tracker", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void pivotalTracker(@RequestBody Event event) {
+
+        log.debug("OverOps event posted to /pivotal-tracker via Webhook integration: {}", event.toString());
+
+        if (event.getType().equals(Event.Type.TEST)) {
+            log.debug("this is just a test");
+
+            return;
+        }
+
+
+        // create story from OverOps event: https://www.pivotaltracker.com/help/api/rest/v5#projects_project_id_stories_post
+        PivotalStory story = new PivotalStory();
+        story.setStoryType("bug");
+        story.setName(event.getData().getSummary());
+        story.setDescription("for additional details please see OverOps Automated Root Cause Analysis (ARC) here: " + event.getData().getPayload().getLink());
+
+        // get pivotal tracker api details from application.properties
+        String trackerProjectId = environment.getProperty("webhook.pivotal.api.projectid");
+        String trackerToken = environment.getProperty("webhook.pivotal.api.token");
+        String trackerUrl = environment.getProperty("webhook.pivotal.api.url") + "/services/v5/projects/" + trackerProjectId + "/stories";
+
+
+        // create RestTemplate and POST story
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("X-TrackerToken", trackerToken);
+
+        HttpEntity<PivotalStory> request = new HttpEntity<>(story, headers);
+
+        restTemplate.postForObject(trackerUrl, request, PivotalStory.class);
+
     }
 
 
