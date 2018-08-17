@@ -24,7 +24,7 @@ public class Controller {
     private Environment environment;
 
 
-    @PostMapping(value = "/simple", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/wh/simple", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void simple(@RequestBody Event event) {
 
         if (event.getType().equals(Event.Type.TEST)) {
@@ -33,12 +33,12 @@ public class Controller {
             return;
         }
 
-        log.debug("OverOps event posted to /simple via Webhook integration: {}", event.toString());
+        log.debug("OverOps event posted to /simple via WebHook integration: {}", event.toString());
 
         // add your custom logic here to do something with the Event...
     }
 
-    @PostMapping(value = "/pivotal-tracker", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/wh/pivotal-tracker", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void pivotalTracker(@RequestBody Event event) {
 
         if (event.getType().equals(Event.Type.TEST)) {
@@ -47,7 +47,7 @@ public class Controller {
             return;
         }
 
-        log.debug("OverOps event posted to /pivotal-tracker via Webhook integration: {}", event.toString());
+        log.debug("OverOps event posted to /pivotal-tracker via WebHook integration: {}", event.toString());
 
         // create story from OverOps event: https://www.pivotaltracker.com/help/api/rest/v5#projects_project_id_stories_post
         PivotalStory story = getPivotalStory(event);
@@ -70,7 +70,7 @@ public class Controller {
 
     }
 
-    private PivotalStory getPivotalStory(Event event) {
+    private static PivotalStory getPivotalStory(Event event) {
 
         PivotalStory story = new PivotalStory();
         story.setStoryType("bug");
