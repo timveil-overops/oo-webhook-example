@@ -1,4 +1,7 @@
 package com.overops.webhook.example.data;
 
-public class Payload {
+public abstract class Payload {
+
+    public abstract String getLink();
+
 }

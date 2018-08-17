@@ -58,6 +58,7 @@ public class ThresholdPayload extends Payload {
         this.topEvents = topEvents;
     }
 
+
     @Override
     public String toString() {
         return "ThresholdPayload{" +
@@ -67,5 +68,16 @@ public class ThresholdPayload extends Payload {
                 ", to=" + to +
                 ", topEvents=" + Arrays.toString(topEvents) +
                 '}';
+    }
+
+    @Override
+    public String getLink() {
+
+        if (topEvents != null && topEvents.length > 0) {
+            return topEvents[0].getLink();
+        }
+
+        return null;
+
     }
 }
