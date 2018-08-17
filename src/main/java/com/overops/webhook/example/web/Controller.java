@@ -35,7 +35,7 @@ public class Controller {
             return;
         }
 
-        // add your custom logic here...
+        // add your custom logic here to do something with the Event...
     }
 
     @PostMapping(value = "/pivotal-tracker", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -51,10 +51,7 @@ public class Controller {
 
 
         // create story from OverOps event: https://www.pivotaltracker.com/help/api/rest/v5#projects_project_id_stories_post
-        PivotalStory story = new PivotalStory();
-        story.setStoryType("bug");
-        story.setName(event.getData().getSummary());
-        story.setDescription("for additional details please see OverOps Automated Root Cause Analysis (ARC) here: " + event.getData().getPayload().getLink());
+        PivotalStory story = getPivotalStory(event);
 
         // get pivotal tracker api details from application.properties
         String trackerProjectId = environment.getProperty("webhook.pivotal.api.projectid");
@@ -73,6 +70,16 @@ public class Controller {
 
         restTemplate.postForObject(trackerUrl, request, PivotalStory.class);
 
+    }
+
+    private PivotalStory getPivotalStory(Event event) {
+
+        PivotalStory story = new PivotalStory();
+        story.setStoryType("bug");
+        story.setName(event.getData().getSummary());
+        story.setDescription("for additional details please see OverOps Automated Root Cause Analysis (ARC) here: " + event.getData().getPayload().getLink());
+
+        return story;
     }
 
 
