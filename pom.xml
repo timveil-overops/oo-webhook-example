@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.overops.webhook</groupId>
-	<artifactId>example</artifactId>
+	<artifactId>webhook-example</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>example</name>
+	<name>OverOps WebHook Examples</name>
 	<description>OverOps Example WebHook integration</description>
 
 	<parent>
