@@ -54,10 +54,9 @@ public class Controller {
         PivotalStory story = getPivotalStory(event);
 
         // get pivotal tracker api details from application.properties
-        String trackerProjectId = environment.getProperty("webhook.pivotal.api.projectid");
+        String trackerProjectId = environment.getProperty("webhook.pivotal.api.project.id");
         String trackerToken = environment.getProperty("webhook.pivotal.api.token");
         String trackerUrl = environment.getProperty("webhook.pivotal.api.url") + "/services/v5/projects/" + trackerProjectId + "/stories";
-
 
         // create RestTemplate and POST story
         RestTemplate restTemplate = new RestTemplate();
@@ -66,9 +65,9 @@ public class Controller {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("X-TrackerToken", trackerToken);
 
-        HttpEntity<PivotalStory> request = new HttpEntity<>(story, headers);
+        HttpEntity<PivotalStory> httpEntity = new HttpEntity<>(story, headers);
 
-        restTemplate.postForObject(trackerUrl, request, PivotalStory.class);
+        restTemplate.postForObject(trackerUrl, httpEntity, PivotalStory.class);
 
     }
 
