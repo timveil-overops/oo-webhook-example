@@ -25,7 +25,7 @@ Keep in mind, these need to be accessible from the OverOps server (SaaS or On-pr
 
 ## Customizing
 
-To create your own WebHook integrations, feel free to fork this repo.  Most of the heavy lifting has been done for you (binding of OverOps data to Java), simply add your logic to one of the `Controller` methods or otherwise rename and refactor
+To create your own WebHook integrations, feel free to fork this repo.  Most of the heavy lifting has been done for you (binding of OverOps data to Java), simply add your logic to one of the [`Controller`](src/main/java/com/overops/webhook/example/web/Controller.java) methods or otherwise rename and refactor
 
 ```java
 @PostMapping(value = "/wh/custom", consumes = MediaType.APPLICATION_JSON_VALUE)
