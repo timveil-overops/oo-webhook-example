@@ -18,14 +18,9 @@ public class Controller {
     @RequestMapping(value = "/webhook", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void post(@RequestBody Event event) {
         log.debug(event.toString());
+
+        // add your custom logic here...
     }
 
-
-    @RequestMapping(value = "/webhook", method = RequestMethod.GET)
-    public void get() {
-
-        log.debug("calling get");
-
-    }
 
 }
