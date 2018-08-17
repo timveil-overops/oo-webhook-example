@@ -23,6 +23,21 @@ http://<your host name or ip>:8090/wh/pivotal-tracker
 
 Keep in mind, these need to be accessible from the OverOps server (SaaS or On-prem).  You can also visit my Docker Demos repo for an complete on-prem example: https://github.com/timveil/docker-demos/tree/master/onprem/webhook-example
 
+## Customizing
+
+To create your own WebHook integrations, feel free to fork this repo.  Most of the heavy lifting has been done for you (binding of OverOps data to Java), simply add your logic to one of the `Controller` methods or otherwise rename and refactor
+
+```java
+@PostMapping(value = "/wh/custom", consumes = MediaType.APPLICATION_JSON_VALUE)
+public void myCustomWebhookHandler(@RequestBody Event event) {
+
+    if (event.getType().equals(Event.Type.TEST)) {
+        return;
+    }
+
+    // add your custom logic here to do something with the Event...
+} 
+```
 
 ## Docker
 
