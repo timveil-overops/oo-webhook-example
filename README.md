@@ -39,6 +39,17 @@ public void myCustomWebhookHandler(@RequestBody Event event) {
 } 
 ```
 
+## Pivotal Tracker
+
+One of the examples i've included is a very simple Pivotal Tracker integration which automatically create's `bugs` when the WebHook url is called.  Obviously this could be significantly improved by leveraging additional Tracker fields or providing more OverOps data directly in the ticket.  This example along with others is really designed to show __the art of the possible__ for integrations that are not yet "out of the box".  To use this example just update the following properties in `application.properties`.
+
+
+```properties
+webhook.pivotal.api.url=https://www.pivotaltracker.com
+webhook.pivotal.api.project.id=
+webhook.pivotal.api.token=
+```
+
 ## Docker
 
 I created a Docker image if that's your thing.
