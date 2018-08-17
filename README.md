@@ -57,15 +57,15 @@ I created a Docker image if that's your thing.
 
 ### Building the Image
 ```bash
-docker build --no-cache -t timveil/oo-webhook-example:latest .
+docker build --no-cache -t timveil/oo-webhook-example:alpine .
 ```
 
 ### Publishing the Image
 ```bash
-docker push timveil/oo-webhook-example:latest
+docker push timveil/oo-webhook-example:alpine
 ```
 
 ### Running the Image
 ```bash
-docker run -it timveil/oo-webhook-example:latest
+docker run -it timveil/oo-webhook-example:alpine
 ```
