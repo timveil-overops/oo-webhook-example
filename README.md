@@ -41,7 +41,7 @@ public void myCustomWebhookHandler(@RequestBody Event event) {
 
 ## Pivotal Tracker
 
-One of the examples i've included is a very simple Pivotal Tracker integration which automatically create's `bugs` when the WebHook url is called.  Obviously this could be significantly improved by leveraging additional Tracker fields or providing more OverOps data directly in the ticket.  This example along with others is really designed to show the __art of the possible__ for integrations that are not yet "out of the box".  To use this example just update the following properties in `application.properties`.
+One of the examples i've included is a very simple Pivotal Tracker integration which automatically creates a Tracker `story` when the WebHook url is called.  Obviously this could be significantly improved by leveraging additional Tracker fields or providing more OverOps data directly in the `story`.  This example along with others is really designed to show the __art of the possible__ for integrations that are not yet "out of the box".  To use this example just update the following properties in `application.properties`.
 
 
 ```properties
