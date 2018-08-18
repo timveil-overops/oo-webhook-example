@@ -31,12 +31,6 @@ public class PivotalService extends TemplateService {
     @Value("${webhook.pivotal.api.url}")
     private String trackerUrl;
 
-
-    private String getStoryUrl() {
-        return trackerUrl + "/services/v5/projects/" + trackerProjectId + "/stories";
-    }
-
-
     private PivotalStory convertEventToStory(Event event) {
 
         // pivotal supports markdown for text fields: https://www.pivotaltracker.com/help/articles/formatting_your_text_with_markdown/
@@ -60,9 +54,11 @@ public class PivotalService extends TemplateService {
 
         HttpEntity<PivotalStory> entity = new HttpEntity<>(story, headers);
 
+        String url = trackerUrl + "/services/v5/projects/" + trackerProjectId + "/stories";
+
         RestTemplate restTemplate = new RestTemplateBuilder().build();
 
-        return restTemplate.postForEntity(getStoryUrl(), entity, String.class, (Object) null);
+        return restTemplate.postForEntity(url, entity, String.class, (Object) null);
 
     }
 }
