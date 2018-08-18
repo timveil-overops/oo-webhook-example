@@ -37,7 +37,6 @@ public class Controller {
 
             // add your custom logic here to do something with the Event...
 
-
         }
 
         return ResponseEntity.ok(HttpStatus.OK);
