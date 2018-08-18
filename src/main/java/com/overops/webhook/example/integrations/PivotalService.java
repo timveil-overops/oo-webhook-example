@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
@@ -44,6 +45,10 @@ public class PivotalService extends TemplateService {
 
     @Override
     public ResponseEntity<String> createEntity(Event event) {
+
+        if (StringUtils.isEmpty(trackerProjectId) || StringUtils.isEmpty(trackerToken)) {
+            throw new IllegalArgumentException("missing required fields");
+        }
 
         // create story from OverOps event: https://www.pivotaltracker.com/help/api/rest/v5#projects_project_id_stories_post
         PivotalStory story = convertEventToStory(event);
