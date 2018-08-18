@@ -44,11 +44,11 @@ public class Controller {
 
         if (Event.Type.ALERT.equals(event.getType())) {
 
-            log.debug("OverOps event posted to /pivotal-tracker via WebHook integration: {}", event.toString());
+            log.debug("OverOps event posted to /wh/pivotal-tracker via WebHook integration: {}", event.toString());
 
             ResponseEntity<String> story = pivotalService.createStory(event);
 
-            log.debug("response: {}", story.toString());
+            log.debug("/wh/pivotal-tracker response: {}", story.toString());
 
             return story;
 
