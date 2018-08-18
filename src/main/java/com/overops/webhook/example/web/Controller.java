@@ -1,13 +1,12 @@
 package com.overops.webhook.example.web;
 
 import com.overops.webhook.example.data.Event;
+import com.overops.webhook.example.integrations.PivotalService;
 import com.overops.webhook.example.integrations.PivotalStory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +19,12 @@ public class Controller {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 
-    @Autowired
-    private Environment environment;
+    private PivotalService pivotalService;
 
+    @Autowired
+    public Controller(PivotalService pivotalService) {
+        this.pivotalService = pivotalService;
+    }
 
     @PostMapping(value = "/wh/simple", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void simple(@RequestBody Event event) {
@@ -49,35 +51,10 @@ public class Controller {
 
         log.debug("OverOps event posted to /pivotal-tracker via WebHook integration: {}", event.toString());
 
-        // create story from OverOps event: https://www.pivotaltracker.com/help/api/rest/v5#projects_project_id_stories_post
-        PivotalStory story = getPivotalStory(event);
+        RestTemplate restTemplate = new RestTemplateBuilder().build();
 
-        // get pivotal tracker api details from application.properties
-        String trackerProjectId = environment.getProperty("webhook.pivotal.api.project.id");
-        String trackerToken = environment.getProperty("webhook.pivotal.api.token");
-        String trackerUrl = environment.getProperty("webhook.pivotal.api.url") + "/services/v5/projects/" + trackerProjectId + "/stories";
+        restTemplate.postForObject(pivotalService.getStoryUrl(), pivotalService.getPivotalStory(event), PivotalStory.class);
 
-        // create RestTemplate and POST story
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("X-TrackerToken", trackerToken);
-
-        HttpEntity<PivotalStory> httpEntity = new HttpEntity<>(story, headers);
-
-        restTemplate.postForObject(trackerUrl, httpEntity, PivotalStory.class);
-
-    }
-
-    private static PivotalStory getPivotalStory(Event event) {
-
-        PivotalStory story = new PivotalStory();
-        story.setStoryType("bug");
-        story.setName(event.getData().getSummary());
-        story.setDescription("for additional details please see OverOps Automated Root Cause Analysis (ARC) here: " + event.getData().getPayload().getLink());
-
-        return story;
     }
 
 
