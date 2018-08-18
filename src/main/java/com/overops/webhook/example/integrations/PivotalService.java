@@ -42,8 +42,8 @@ public class PivotalService extends TemplateService {
         return story;
     }
 
-
-    public ResponseEntity<String> createStory(Event event) {
+    @Override
+    public ResponseEntity<String> createEntity(Event event) {
 
         // create story from OverOps event: https://www.pivotaltracker.com/help/api/rest/v5#projects_project_id_stories_post
         PivotalStory story = convertEventToStory(event);

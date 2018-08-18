@@ -2,10 +2,11 @@ package com.overops.webhook.example.integrations;
 
 import com.overops.webhook.example.data.Event;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
-public class TemplateService {
+public abstract class TemplateService<T> {
 
 
     SpringTemplateEngine templateEngine;
@@ -14,6 +15,8 @@ public class TemplateService {
     public TemplateService(SpringTemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
+
+    public abstract ResponseEntity<T> createEntity(Event event);
 
     String getName(Event event) {
 

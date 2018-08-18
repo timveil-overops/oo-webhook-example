@@ -46,11 +46,11 @@ public class WebhookRestController {
 
             log.debug("OverOps event posted to /wh/pivotal-tracker via WebHook integration: {}", event.toString());
 
-            ResponseEntity<String> story = pivotalService.createStory(event);
+            ResponseEntity<String> response = pivotalService.createEntity(event);
 
-            log.debug("/wh/pivotal-tracker response: {}", story.toString());
+            log.debug("/wh/pivotal-tracker response: {}", response.toString());
 
-            return story;
+            return response;
 
         }
 
