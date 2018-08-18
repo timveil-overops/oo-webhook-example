@@ -17,7 +17,7 @@ Duration: `[(${event.data.payload.getDurationInMinutes()})] minutes`
 ## Top Events
 
 [# th:each="topEvent : ${event.data.payload.topEvents}"]
-    * Event `[(${topEvent.title})]` occurred \[[(${topEvent.times})]\]([(${topEvent.link})]) times
+    * Event `[(${topEvent.title})]` occurred `[(${topEvent.times})]` [times]([(${topEvent.link})]).
 [/]
 
 
