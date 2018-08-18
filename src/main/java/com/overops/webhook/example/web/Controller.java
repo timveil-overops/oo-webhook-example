@@ -2,18 +2,15 @@ package com.overops.webhook.example.web;
 
 import com.overops.webhook.example.data.Event;
 import com.overops.webhook.example.integrations.PivotalService;
-import com.overops.webhook.example.integrations.PivotalStory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class Controller {
@@ -49,9 +46,12 @@ public class Controller {
 
             log.debug("OverOps event posted to /pivotal-tracker via WebHook integration: {}", event.toString());
 
-            RestTemplate restTemplate = new RestTemplateBuilder().build();
+            ResponseEntity<String> story = pivotalService.createStory(event);
 
-            restTemplate.postForObject(pivotalService.getStoryUrl(), pivotalService.getPivotalStory(event), PivotalStory.class, (Object) null);
+            log.debug("response: {}", story.toString());
+
+            return story;
+
         }
 
         return ResponseEntity.ok(HttpStatus.OK);
