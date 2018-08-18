@@ -2,16 +2,16 @@ package com.overops.webhook.example.integrations;
 
 import com.overops.webhook.example.data.Event;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 public class TemplateService {
 
 
-    TemplateEngine templateEngine;
+    SpringTemplateEngine templateEngine;
 
     @Autowired
-    public TemplateService(TemplateEngine templateEngine) {
+    public TemplateService(SpringTemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 

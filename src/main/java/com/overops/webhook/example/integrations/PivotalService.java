@@ -8,17 +8,16 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 @Service
 public class PivotalService extends TemplateService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public PivotalService(TemplateEngine templateEngine) {
+    public PivotalService(SpringTemplateEngine templateEngine) {
         super(templateEngine);
     }
-
 
     @Value("${webhook.pivotal.api.project.id}")
     private String trackerProjectId;

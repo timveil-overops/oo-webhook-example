@@ -11,38 +11,18 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class ThymeleafConfiguration {
 
-/*
-    @Bean
-    public TemplateEngine textTemplateEngine() {
-        TemplateEngine templateEngine = new TemplateEngine();
-        templateEngine.addTemplateResolver(textTemplateResolver());
-        return templateEngine;
-    }
-
-    private ITemplateResolver textTemplateResolver() {
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setPrefix("/templates/text/");
-        templateResolver.setSuffix(".txt");
-        templateResolver.setTemplateMode(TemplateMode.TEXT);
-        templateResolver.setCharacterEncoding("UTF8");
-        templateResolver.setCheckExistence(true);
-        templateResolver.setCacheable(false);
-        return templateResolver;
-    }*/
-
-
     @Bean
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.addTemplateResolver(textResolver());
+        templateEngine.addTemplateResolver(markdownResolver());
         return templateEngine;
     }
 
     @Bean
-    public SpringResourceTemplateResolver textResolver() {
+    public SpringResourceTemplateResolver markdownResolver() {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
-        resolver.setPrefix("classpath:/templates/text/");
-        resolver.setSuffix(".txt");
+        resolver.setPrefix("classpath:/templates/markdown/");
+        resolver.setSuffix(".md");
         resolver.setTemplateMode(TemplateMode.TEXT);
         resolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
         return resolver;
