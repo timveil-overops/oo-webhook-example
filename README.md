@@ -43,12 +43,13 @@ public void myCustomWebhookHandler(@RequestBody Event event) {
 
 One of the examples i've included is a very simple Pivotal Tracker integration which automatically creates a Tracker `story` when the WebHook url is called.  Obviously this could be significantly improved by leveraging additional Tracker fields or providing more OverOps data directly in the `story`.  This example along with others is really designed to show the __art of the possible__ for integrations that are not yet "out of the box".  To use this example just update the following properties in `application.properties`.
 
-
 ```properties
 webhook.pivotal.api.url=https://www.pivotaltracker.com
 webhook.pivotal.api.project.id=
 webhook.pivotal.api.token=
 ```
+
+This example also uses Thymeleaf templates to create Tracker compliant markdown for text fields.  This allows richer formatting for data.
 
 ## Docker
 
