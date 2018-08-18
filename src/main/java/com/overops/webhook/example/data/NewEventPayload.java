@@ -47,7 +47,7 @@ public class NewEventPayload extends Payload {
     @JsonProperty("error_code")
     private String httpErrorCode;
 
-    // todo - lets have lets have different field names for different "messsage"
+    // todo - lets have lets have different field names for different "message"
 
 
     public Frame getLocation() {
