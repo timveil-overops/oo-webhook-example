@@ -20,13 +20,13 @@ public class PivotalService extends TemplateService {
     }
 
 
-    @Value("webhook.pivotal.api.project.id")
+    @Value("${webhook.pivotal.api.project.id}")
     private String trackerProjectId;
 
-    @Value("webhook.pivotal.api.token")
+    @Value("${webhook.pivotal.api.token}")
     private String trackerToken;
 
-    @Value("webhook.pivotal.api.url")
+    @Value("${webhook.pivotal.api.url}")
     private String trackerUrl;
 
 

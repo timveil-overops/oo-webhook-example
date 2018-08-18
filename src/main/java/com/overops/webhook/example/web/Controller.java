@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,34 +29,33 @@ public class Controller {
     }
 
     @PostMapping(value = "/wh/simple", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void simple(@RequestBody Event event) {
+    public ResponseEntity simple(@RequestBody Event event) {
 
-        if (event.getType().equals(Event.Type.TEST)) {
-            log.debug("this is just a test");
+        if (Event.Type.ALERT.equals(event.getType())) {
 
-            return;
+            log.debug("OverOps event posted to /simple via WebHook integration: {}", event.toString());
+
+            // add your custom logic here to do something with the Event...
+
+
         }
 
-        log.debug("OverOps event posted to /simple via WebHook integration: {}", event.toString());
-
-        // add your custom logic here to do something with the Event...
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping(value = "/wh/pivotal-tracker", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void pivotalTracker(@RequestBody Event event) {
+    public ResponseEntity pivotalTracker(@RequestBody Event event) {
 
-        if (event.getType().equals(Event.Type.TEST)) {
-            log.debug("this is just a test");
+        if (Event.Type.ALERT.equals(event.getType())) {
 
-            return;
+            log.debug("OverOps event posted to /pivotal-tracker via WebHook integration: {}", event.toString());
+
+            RestTemplate restTemplate = new RestTemplateBuilder().build();
+
+            restTemplate.postForObject(pivotalService.getStoryUrl(), pivotalService.getPivotalStory(event), PivotalStory.class, (Object) null);
         }
 
-        log.debug("OverOps event posted to /pivotal-tracker via WebHook integration: {}", event.toString());
-
-        RestTemplate restTemplate = new RestTemplateBuilder().build();
-
-        restTemplate.postForObject(pivotalService.getStoryUrl(), pivotalService.getPivotalStory(event), PivotalStory.class);
-
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 
