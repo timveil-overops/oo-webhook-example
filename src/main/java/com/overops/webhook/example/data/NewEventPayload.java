@@ -49,7 +49,6 @@ public class NewEventPayload extends Payload {
 
     // todo - lets have lets have different field names for different "message"
 
-
     public Frame getLocation() {
         return location;
     }
