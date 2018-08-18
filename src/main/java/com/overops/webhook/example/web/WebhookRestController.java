@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Controller {
+public class WebhookRestController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -21,7 +21,7 @@ public class Controller {
     private PivotalService pivotalService;
 
     @Autowired
-    public Controller(PivotalService pivotalService) {
+    public WebhookRestController(PivotalService pivotalService) {
         this.pivotalService = pivotalService;
     }
 
