@@ -52,7 +52,6 @@ public class PivotalService extends TemplateService {
         // create story from OverOps event: https://www.pivotaltracker.com/help/api/rest/v5#projects_project_id_stories_post
         PivotalStory story = convertEventToStory(event);
 
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("X-TrackerToken", trackerToken);

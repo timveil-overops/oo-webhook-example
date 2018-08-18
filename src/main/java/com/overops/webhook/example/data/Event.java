@@ -2,6 +2,8 @@ package com.overops.webhook.example.data;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.joda.time.DateTime;
 
 public class Event {
 
@@ -12,7 +14,8 @@ public class Event {
     @JsonProperty("api_version")
     private String apiVersion;
 
-    private long date;
+    @JsonDeserialize(using = DateDeserializer.class)
+    private DateTime date;
 
     private Type type;
 
@@ -34,11 +37,11 @@ public class Event {
         this.apiVersion = apiVersion;
     }
 
-    public long getDate() {
+    public DateTime getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(DateTime date) {
         this.date = date;
     }
 
