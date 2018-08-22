@@ -42,6 +42,28 @@ public abstract class TemplateService<T> {
 
     }
 
+    String getMessage(Event event) {
+        Context context = new Context();
+        context.setVariable("event", event);
+
+        String message = null;
+
+        switch (event.getData().getType()) {
+
+            case NEW_EVENT:
+                message = templateEngine.process("new-event-message", context);
+                break;
+            case RESURFACED:
+                message = templateEngine.process("resurfaced-message", context);
+                break;
+            case THRESHOLD:
+                message = templateEngine.process("threshold-message", context);
+                break;
+        }
+
+        return message;
+    }
+
     String getDescription(Event event) {
         Context context = new Context();
         context.setVariable("event", event);

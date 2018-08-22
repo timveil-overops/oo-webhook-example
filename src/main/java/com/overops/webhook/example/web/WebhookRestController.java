@@ -1,6 +1,7 @@
 package com.overops.webhook.example.web;
 
 import com.overops.webhook.example.data.Event;
+import com.overops.webhook.example.integrations.MattermostService;
 import com.overops.webhook.example.integrations.PivotalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,12 @@ public class WebhookRestController {
 
     private PivotalService pivotalService;
 
+    private MattermostService mattermostService;
+
     @Autowired
-    public WebhookRestController(PivotalService pivotalService) {
+    public WebhookRestController(PivotalService pivotalService, MattermostService mattermostService) {
         this.pivotalService = pivotalService;
+        this.mattermostService = mattermostService;
     }
 
     @PostMapping(value = "/wh/simple", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +53,25 @@ public class WebhookRestController {
             ResponseEntity<String> response = pivotalService.createEntity(event);
 
             log.debug("/wh/pivotal-tracker response: {}", response.toString());
+
+            return response;
+
+        }
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+
+    @PostMapping(value = "/wh/mattermost", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity mattermost(@RequestBody Event event) {
+
+        if (Event.Type.ALERT.equals(event.getType())) {
+
+            log.debug("OverOps event posted to /wh/mattermost via WebHook integration: {}", event.toString());
+
+            ResponseEntity<String> response = mattermostService.createEntity(event);
+
+            log.debug("/wh/mattermost response: {}", response.toString());
 
             return response;
 

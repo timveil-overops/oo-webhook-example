@@ -51,6 +51,34 @@ webhook.pivotal.api.token=
 
 This example also uses Thymeleaf templates to create Tracker compliant markdown for text fields.  This allows richer formatting for data.
 
+## Matter Most
+
+```
+docker run --name mattermost-preview -d --publish 8065:8065 --add-host dockerhost:127.0.0.1 mattermost/mattermost-preview
+```
+
+```
+payload={
+  "channel": "town-square",
+  "username": "test-automation",
+  "icon_url": "https://www.mattermost.org/wp-content/uploads/2016/04/icon.png",
+  "text": "#### Test results for July 27th, 2017\n<!channel> please review failed tests.\n
+  | Component  | Tests Run   | Tests Failed                                   |
+  |:-----------|:-----------:|:-----------------------------------------------|
+  | Server     | 948         | :white_check_mark: 0                           |
+  | Web Client | 123         | :warning: 2 [(see details)](http://linktologs) |
+  | iOS Client | 78          | :warning: 3 [(see details)](http://linktologs) |
+  "
+  }
+```
+
+incoming webhook url
+```
+http://localhost:8065/hooks/dwj6wsbxutnmdpkkn8gbcqrf7a
+```
+
+http://host.docker.internal:8090
+
 ## Docker
 
 I created a Docker image if that's your thing.
