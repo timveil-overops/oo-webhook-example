@@ -19,9 +19,18 @@ To begin receiving events, enable "Webhook" alerts on any OverOps View.  You sho
 ```
 http://<your host name or ip>:8090/wh/simple
 http://<your host name or ip>:8090/wh/pivotal-tracker
+http://<your host name or ip>:8090/wh/mattermost
 ```
 
 Keep in mind, these need to be accessible from the OverOps server (SaaS or On-prem).  You can also visit my Docker Demos repo for an complete on-prem example: https://github.com/timveil/docker-demos/tree/master/onprem/webhook-example
+
+If you're using Docker for Mac, like I am for most testing, you can use the following base URLs.
+
+```
+http://host.docker.internal:8090/wh/simple
+http://host.docker.internal:8090/wh/pivotal-tracker
+http://host.docker.internal:8090/wh/mattermost
+```
 
 ## Customizing
 
@@ -51,33 +60,21 @@ webhook.pivotal.api.token=
 
 This example also uses Thymeleaf templates to create Tracker compliant markdown for text fields.  This allows richer formatting for data.
 
-## Matter Most
+## Mattermost
+
+This example shows how to quickly send OverOps alerts to a Mattermost `channel`.  An easy way to get up and running with Mattermost is the Docker command below.
 
 ```
 docker run --name mattermost-preview -d --publish 8065:8065 --add-host dockerhost:127.0.0.1 mattermost/mattermost-preview
 ```
 
-```
-payload={
-  "channel": "town-square",
-  "username": "test-automation",
-  "icon_url": "https://www.mattermost.org/wp-content/uploads/2016/04/icon.png",
-  "text": "#### Test results for July 27th, 2017\n<!channel> please review failed tests.\n
-  | Component  | Tests Run   | Tests Failed                                   |
-  |:-----------|:-----------:|:-----------------------------------------------|
-  | Server     | 948         | :white_check_mark: 0                           |
-  | Web Client | 123         | :warning: 2 [(see details)](http://linktologs) |
-  | iOS Client | 78          | :warning: 3 [(see details)](http://linktologs) |
-  "
-  }
-```
+Mattermost users simply need to enable `Incomming Webhooks` and generate a `Incomming Webhook` url and token. Then update the following properties in `application.properties`
 
-incoming webhook url
+```properties
+webhook.mattermost.url=<incomming webhook url and token>
+webhook.mattermost.channel=<channel you want messages to post to>
+webhook.mattermost.username=<user you want messages to appear from>
 ```
-http://localhost:8065/hooks/dwj6wsbxutnmdpkkn8gbcqrf7a
-```
-
-http://host.docker.internal:8090
 
 ## Docker
 
