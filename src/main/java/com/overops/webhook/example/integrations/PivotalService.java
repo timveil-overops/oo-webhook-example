@@ -60,11 +60,11 @@ public class PivotalService extends TemplateService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("X-TrackerToken", trackerToken);
+        headers.set("X-TrackerToken", StringUtils.trimWhitespace(trackerToken));
 
         HttpEntity<PivotalStory> entity = new HttpEntity<>(story, headers);
 
-        String url = trackerUrl + "/services/v5/projects/" + trackerProjectId + "/stories";
+        String url = StringUtils.trimWhitespace(trackerUrl) + "/services/v5/projects/" + StringUtils.trimWhitespace(trackerProjectId) + "/stories";
 
         RestTemplate restTemplate = new RestTemplateBuilder()
                 .requestFactory(() -> new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()))

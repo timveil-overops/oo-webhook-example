@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
@@ -29,7 +30,6 @@ public class MattermostService extends TemplateService<String> {
     private String url;
 
 
-
     public MattermostService(SpringTemplateEngine templateEngine) {
         super(templateEngine);
     }
@@ -38,8 +38,8 @@ public class MattermostService extends TemplateService<String> {
     public ResponseEntity<String> createEntity(Event event) {
 
         MattermostMessage message = new MattermostMessage();
-        message.setChannel(channel);
-        message.setUsername(username);
+        message.setChannel(StringUtils.trimWhitespace(channel));
+        message.setUsername(StringUtils.trimWhitespace(username));
         message.setText(getMessage(event));
 
         HttpHeaders headers = new HttpHeaders();
@@ -52,7 +52,7 @@ public class MattermostService extends TemplateService<String> {
                 .interceptors(Collections.singletonList(new LoggingInterceptor()))
                 .build();
 
-        return restTemplate.postForEntity(url, entity, String.class, (Object) null);
+        return restTemplate.postForEntity(StringUtils.trimWhitespace(url), entity, String.class, (Object) null);
 
     }
 }
