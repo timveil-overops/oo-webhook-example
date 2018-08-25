@@ -1,6 +1,7 @@
 package com.overops.webhook.example.integrations;
 
 import com.overops.webhook.example.data.Event;
+import com.overops.webhook.example.web.LoggingInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +10,14 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.spring5.SpringTemplateEngine;
+
+import java.util.Collections;
 
 @Service
 public class PivotalService extends TemplateService {
@@ -61,7 +66,10 @@ public class PivotalService extends TemplateService {
 
         String url = trackerUrl + "/services/v5/projects/" + trackerProjectId + "/stories";
 
-        RestTemplate restTemplate = new RestTemplateBuilder().build();
+        RestTemplate restTemplate = new RestTemplateBuilder()
+                .requestFactory(() -> new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()))
+                .interceptors(Collections.singletonList(new LoggingInterceptor()))
+                .build();
 
         return restTemplate.postForEntity(url, entity, String.class, (Object) null);
 
