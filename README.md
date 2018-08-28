@@ -68,12 +68,12 @@ This example shows how to quickly send OverOps alerts to a Mattermost `channel`.
 docker run --name mattermost-preview -d --publish 8065:8065 --add-host dockerhost:127.0.0.1 mattermost/mattermost-preview
 ```
 
-Mattermost users simply need to enable `Incomming Webhooks` and generate a `Incomming Webhook` url and token. Then update the following properties in `application.properties`
+Mattermost users simply need to enable `Incoming Webhooks` and generate a `Incoming Webhook` url and token. Then update the following properties in `application.properties`
 
 ```properties
-webhook.mattermost.url=<incomming webhook url and token>
-webhook.mattermost.channel=<channel you want messages to post to>
-webhook.mattermost.username=<user you want messages to appear from>
+webhook.mattermost.url=<incoming webhook url and token>
+webhook.mattermost.channel.override=<override channel specified in webhook url.  not required.>
+webhook.mattermost.username.override=<override username specified in webhook url.  not required.>
 ```
 
 ## Docker

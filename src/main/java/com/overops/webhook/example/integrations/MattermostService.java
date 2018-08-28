@@ -20,10 +20,10 @@ import java.util.Collections;
 @Service
 public class MattermostService extends TemplateService<String> {
 
-    @Value("${webhook.mattermost.channel}")
+    @Value("${webhook.mattermost.channel.override}")
     private String channel;
 
-    @Value("${webhook.mattermost.username}")
+    @Value("${webhook.mattermost.username.override}")
     private String username;
 
     @Value("${webhook.mattermost.url}")
