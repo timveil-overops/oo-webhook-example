@@ -19,9 +19,18 @@ To begin receiving events, enable "Webhook" alerts on any OverOps View.  You sho
 ```
 http://<your host name or ip>:8090/wh/simple
 http://<your host name or ip>:8090/wh/pivotal-tracker
+http://<your host name or ip>:8090/wh/mattermost
 ```
 
 Keep in mind, these need to be accessible from the OverOps server (SaaS or On-prem).  You can also visit my Docker Demos repo for an complete on-prem example: https://github.com/timveil/docker-demos/tree/master/onprem/webhook-example
+
+If you're using Docker for Mac, like I am for most testing, you can use the following base URLs.
+
+```
+http://host.docker.internal:8090/wh/simple
+http://host.docker.internal:8090/wh/pivotal-tracker
+http://host.docker.internal:8090/wh/mattermost
+```
 
 ## Customizing
 
@@ -43,11 +52,28 @@ public void myCustomWebhookHandler(@RequestBody Event event) {
 
 One of the examples i've included is a very simple Pivotal Tracker integration which automatically creates a Tracker `story` when the WebHook url is called.  Obviously this could be significantly improved by leveraging additional Tracker fields or providing more OverOps data directly in the `story`.  This example along with others is really designed to show the __art of the possible__ for integrations that are not yet "out of the box".  To use this example just update the following properties in `application.properties`.
 
-
 ```properties
 webhook.pivotal.api.url=https://www.pivotaltracker.com
 webhook.pivotal.api.project.id=
 webhook.pivotal.api.token=
+```
+
+This example also uses Thymeleaf templates to create Tracker compliant markdown for text fields.  This allows richer formatting for data.
+
+## Mattermost
+
+This example shows how to quickly send OverOps alerts to a Mattermost `channel`.  An easy way to get up and running with Mattermost is the Docker command below.
+
+```
+docker run --name mattermost-preview -d --publish 8065:8065 --add-host dockerhost:127.0.0.1 mattermost/mattermost-preview
+```
+
+Mattermost users simply need to enable `Incoming Webhooks` and generate a `Incoming Webhook` url and token. Then update the following properties in `application.properties`
+
+```properties
+webhook.mattermost.url=<incoming webhook url and token>
+webhook.mattermost.channel.override=<override channel specified in webhook url.  not required.>
+webhook.mattermost.username.override=<override username specified in webhook url.  not required.>
 ```
 
 ## Docker

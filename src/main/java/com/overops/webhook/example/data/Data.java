@@ -71,6 +71,10 @@ public class Data {
     }
 
 
+    public String addedByString() {
+        return String.join(",", addedBy);
+    }
+
     @Override
     public String toString() {
         return "Data{" +

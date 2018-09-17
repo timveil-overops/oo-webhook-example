@@ -1,19 +1,28 @@
 package com.overops.webhook.example.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Arrays;
 
 public class ThresholdPayload extends Payload {
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
+
     private int threshold;
     private long times;
 
     @JsonProperty("from_timestamp")
-    private long from;
+    @JsonDeserialize(using = DateDeserializer.class)
+    private DateTime from;
 
     @JsonProperty("to_timestamp")
-    private long to;
+    @JsonDeserialize(using = DateDeserializer.class)
+    private DateTime to;
 
     @JsonProperty("top_events")
     private ThresholdEvent[] topEvents;
@@ -34,19 +43,19 @@ public class ThresholdPayload extends Payload {
         this.times = times;
     }
 
-    public long getFrom() {
+    public DateTime getFrom() {
         return from;
     }
 
-    public void setFrom(long from) {
+    public void setFrom(DateTime from) {
         this.from = from;
     }
 
-    public long getTo() {
+    public DateTime getTo() {
         return to;
     }
 
-    public void setTo(long to) {
+    public void setTo(DateTime to) {
         this.to = to;
     }
 
@@ -56,6 +65,21 @@ public class ThresholdPayload extends Payload {
 
     public void setTopEvents(ThresholdEvent[] topEvents) {
         this.topEvents = topEvents;
+    }
+
+
+    public long getDurationInMinutes() {
+        Duration duration = new Duration(from, to);
+
+        return duration.getStandardMinutes();
+    }
+
+    public String getFromString() {
+        return DATE_TIME_FORMATTER.print(from);
+    }
+
+    public String getToString() {
+        return DATE_TIME_FORMATTER.print(to);
     }
 
 
