@@ -83,15 +83,15 @@ I created a Docker image if that's your thing.
 
 ### Building the Image
 ```bash
-docker build --no-cache -t timveil/oo-webhook-example:alpine-glibc .
+docker build --no-cache -t timveil/oo-webhook-example:alpine-musl .
 ```
 
 ### Publishing the Image
 ```bash
-docker push timveil/oo-webhook-example:alpine-glibc
+docker push timveil/oo-webhook-example:alpine-musl
 ```
 
 ### Running the Image
 ```bash
-docker run -it timveil/oo-webhook-example:alpine-glibc
+docker run -it timveil/oo-webhook-example:alpine-musl
 ```
